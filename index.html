@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Licznik Respawnów Metinów</title>
+    <script>
+        function updateTimer() {
+            let now = new Date();
+            let minutes = now.getMinutes();
+            let seconds = now.getSeconds();
+
+            // Metiny spadają co godzinę, co 2.5 minuty.
+            let respawnMinutes = (Math.floor(minutes / 2.5) + 1) * 2.5;
+            if (respawnMinutes >= 60) respawnMinutes = 0;
+
+            let respawnTime = new Date();
+            respawnTime.setMinutes(respawnMinutes);
+            respawnTime.setSeconds(0);
+
+            let diff = respawnTime - now;
+            if (diff < 0) diff += 3600000; // Dodaj godzinę, jeśli czas już minął.
+
+            let remainingMinutes = Math.floor(diff / 60000);
+            let remainingSeconds = Math.floor((diff % 60000) / 1000);
+
+            document.getElementById("timer").innerText = 
+                `Następny respawn: ${respawnMinutes} min (${remainingMinutes} min ${remainingSeconds} sek)`;
+        }
+
+        setInterval(updateTimer, 1000);
+    </script>
+</head>
+<body>
+    <h1>Licznik Respawnów Metinów</h1>
+    <p id="timer">Ładowanie...</p>
+</body>
+</html>
